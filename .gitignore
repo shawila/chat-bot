@@ -15,3 +15,5 @@
 # Ignore the bundled gems
 /vendor/bundle
 
+.byebug_history
+*.swp
