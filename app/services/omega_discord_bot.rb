@@ -16,7 +16,7 @@ class OmegaDiscordBot
       set_next_raid(message)
     end
 
-    command_bot.command :raid do
+    command_bot.command(:raid, description: 'Shows time until raid/zerg in hours/minutes') do
       next_raid(@@next_raid_time)
     end
 
@@ -52,11 +52,11 @@ class OmegaDiscordBot
     minutes = ((raid_time - now - hours.hours) / 1.minute).round
 
     if (now < raid_time)
-      "Next raid starts in #{hours} hours and #{minutes} minutes!"
+      "Next raid starts in **#{hours} hours and #{minutes} minutes**!"
     elsif (now < zerg_time)
-      "Raid started #{- hours} hours and #{- minutes} minutes ago!\nZerg starts in #{8 + hours} hours and #{60 + minutes} minutes!"
+      "Raid started **#{- hours} hours and #{- minutes} minutes** ago!\nZerg starts in **#{8 + hours} hours and #{60 + minutes} minutes**!"
     else
-      "Raid started #{- hours} hours and #{- minutes} minutes ago!\nZerg started #{- hours - 9} hours and #{- minutes} minutes ago!"
+      "Raid started **#{- hours} hours and #{- minutes} minutes** ago!\nZerg started **#{- hours - 9} hours and #{- minutes} minutes** ago!"
     end
   end
 end
