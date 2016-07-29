@@ -16,6 +16,10 @@ class OmegaDiscordBot
       set_next_raid(message)
     end
 
+    @@chat_bot.message_edit(in: "##{CHANNEL}", containing: 'Omega Raid Schedule (Tier 7)') do |event|
+      @@next_raid_time = nil
+    end
+
     command_bot.command(:raid, description: 'Shows time until raid/zerg in hours/minutes') do
       next_raid(@@next_raid_time)
     end
@@ -38,8 +42,10 @@ class OmegaDiscordBot
 
     date_string = message.match(/Date: +(.*)/)[1]
     time_string = message.match(/([0-9:]*) UTC/)[1]
+    next_day = message.scan(/UTC \(/).count == 2
 
     @@next_raid_time = Time.parse("#{date_string} #{time_string} UTC")
+    @@next_raid_time = @@next_raid_time + 1.day if next_day
   end
 
   def self.next_raid(raid_time)
