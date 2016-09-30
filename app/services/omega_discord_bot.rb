@@ -61,9 +61,9 @@ class OmegaDiscordBot
     if (now < raid_time)
       "Next raid starts in **#{hours} hours and #{minutes} minutes**!"
     elsif (now < zerg_time)
-      "Raid started **#{- hours} hours and #{- minutes} minutes** ago!\nZerg starts in **#{35 + hours} hours and #{60 + minutes} minutes**!"
+      "Raid started **#{- hours} hours and #{- minutes} minutes** ago!\nZerg starts in **#{35 + hours} hours and #{60 + minutes} minutes**!\nSpecial raid rules! Please check #raid_schedule for more info."
     else
-      "Raid started **#{- hours} hours and #{- minutes} minutes** ago!\nZerg started **#{- hours - 9} hours and #{- minutes} minutes** ago!"
+      "Raid started **#{- hours} hours and #{- minutes} minutes** ago!\nZerg started **#{- hours - 36} hours and #{- minutes} minutes** ago!"
     end
   end
 end
