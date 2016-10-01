@@ -34,25 +34,24 @@ class OmegaDiscordBot
   end
 
   def self.set_next_raid(message = nil)
-    # if (message.nil?)
-    #   message = @@chat_bot.find_channel(CHANNEL, SERVER).first.history(10).map(&:content).select do |message|
-    #     message.include?('Omega Raid Schedule (Tier 7)')
-    #   end.first
-    # end
-    #
-    # date_string = message.match(/Date: +(.*)/)[1]
-    # time_string = message.match(/([0-9:]*) UTC/)[1]
-    # next_day = message.scan(/UTC \(/).count == 2
-    #
-    # @@next_raid_time = Time.parse("#{date_string} #{time_string} UTC")
-    # @@next_raid_time = @@next_raid_time + 1.day if next_day
-    @@next_raid_time = Time.parse('September 29 2016 23:00 UTC')
+    if (message.nil?)
+      message = @@chat_bot.find_channel(CHANNEL, SERVER).first.history(10).map(&:content).select do |message|
+        message.include?('Omega Raid Schedule (Tier 7)')
+      end.first
+    end
+
+    date_string = message.match(/Date: +(.*)/)[1]
+    time_string = message.match(/([0-9:]*) UTC/)[1]
+    next_day = message.scan(/UTC \(/).count == 2
+
+    @@next_raid_time = Time.parse("#{date_string} #{time_string} UTC")
+    @@next_raid_time = @@next_raid_time + 1.day if next_day
   end
 
   def self.next_raid(raid_time)
     raid_time = set_next_raid if raid_time.nil?
 
-    zerg_time = raid_time + 36.hours
+    zerg_time = raid_time + 9.hours
     now = Time.zone.now
 
     hours = ((raid_time - now) / 1.hour).to_i
