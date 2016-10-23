@@ -21,10 +21,7 @@ class OmegaDiscordBot
     end
 
     command_bot.command(:raid, description: 'Shows time until raid/zerg in hours/minutes') do
-      ['Even bots need holidays every once in a while you know!',
-        "I'm trying to grow a beard to becomes as strong as Grande",
-        "Hey! You don't see me walking in on you in your shower do you?!",
-        "I am not available right now, please leave a message after the beep."].sample
+      next_raid(@@next_raid_time)
     end
 
     @@chat_bot.run :async
