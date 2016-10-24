@@ -1,0 +1,10 @@
+= simple_nested_form_for [@guild, @raid] do |f|
+  = f.input :name
+  = f.hidden_field :raid_type
+  %h2 Phases:
+  = f.fields_for :phases do |phase_form|
+    = phase_form.input :name
+    = phase_form.input :start
+    = phase_form.link_to_remove 'Remove this phase'
+  %p= f.link_to_add 'Add a phase', :phases
+  = f.button :submit

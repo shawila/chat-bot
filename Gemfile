@@ -32,11 +32,28 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'devise'
+gem 'omniauth-discord'
+
 gem 'discordrb'
+
+gem 'haml'
+gem 'bootstrap', '~> 4.0.0.alpha3.1'
+gem 'simple_form'
+gem 'nested_form'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.1.0'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'pry-byebug'
+  gem 'awesome_print'
+  gem 'looksee'
+  gem 'rspec-rails'
+  gem 'pgreset'
 end
 
 group :development do

@@ -1,0 +1,12 @@
+%h1= "Raid: #{@raid.display}"
+
+%table
+  %tr
+    %th Phase
+    %th Start
+  - @raid.phases.each do |phase|
+    %tr
+      %td= phase.name
+      %td= phase.start
+= link_to 'Edit', edit_guild_raid_path(@guild, @raid)
+= link_to 'Back to raids', guild_raids_path

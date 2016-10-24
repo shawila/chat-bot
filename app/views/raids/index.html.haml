@@ -1,0 +1,14 @@
+%h1 Raids
+%table
+  %tr
+    %th Name
+    %th Phases
+  - @raids.each do |raid|
+    %tr
+      %td= link_to "#{raid.display}", guild_raid_path(@guild, raid)
+      - raid.phases.each do |phase|
+        %td= phase.name
+        %td= phase.start
+= link_to 'New raid (The Pit)', new_guild_raid_path(type: :pit)
+= link_to 'New raid (Tank Takedown)', new_guild_raid_path(type: :tank)
+= link_to 'Back to guilds', guilds_path

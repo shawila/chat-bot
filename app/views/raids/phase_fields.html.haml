@@ -1,0 +1,4 @@
+= f.fields_for :phases do |task_form|
+  = task_form.text_field :name
+  = task_form.link_to_remove 'Remove this phase'
+%p= f.link_to_add 'Add a task', :tasks

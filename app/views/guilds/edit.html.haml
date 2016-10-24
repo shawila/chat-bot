@@ -1,0 +1,4 @@
+%h1= "Edit guild: #{@guild.name}"
+= simple_form_for @guild do |f|
+  = f.input :announcement_channel, hint: 'Channel for raid announcements'
+  = f.button :submit

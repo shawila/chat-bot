@@ -1,69 +1,95 @@
 require 'discordrb'
 
 class OmegaDiscordBot
-  CHANNEL = 'raid_schedule'
-  SERVER = 'Legendary Omega'
+  def self.chat_bot
+    @chat_bot ||= Discordrb::Bot.new token: OMEGA_DISCORD_BOT_TOKEN, application_id: OMEGA_DISCORD_APP_ID
+  end
 
-  @@next_raid_time = nil
-  @@chat_bot = nil
+  def self.run!
+    command_bot = Discordrb::Commands::CommandBot.new token: OMEGA_DISCORD_BOT_TOKEN, application_id: OMEGA_DISCORD_APP_ID, prefix: '!'
 
-  def self.run!(discord_bot_token, discord_app_id)
-    @@chat_bot = Discordrb::Bot.new token: discord_bot_token, application_id: discord_app_id
-    command_bot = Discordrb::Commands::CommandBot.new token: discord_bot_token, application_id: discord_app_id, prefix: '!'
-
-    @@chat_bot.message(in: "##{CHANNEL}", containing: 'Omega Raid Schedule (Tier 7)') do |event|
-      message = event.message.content
-      set_next_raid(message)
+    chat_bot.message(in: '#general', containing: 'Grandepatron') do |event|
+      chat_bot.send_message(event.channel.id, 'All hail our bearded leader!')
     end
 
-    @@chat_bot.message_edit(in: "##{CHANNEL}", containing: 'Omega Raid Schedule (Tier 7)') do |event|
-      @@next_raid_time = nil
+    command_bot.command(:raid, description: 'Shows time until next raid (including all phases) in hours/minutes') do |event|
+      if event.server.name == 'Test'
+        next_raid
+      else
+        ['Even bots need holidays every once in a while you know!',
+         "I'm trying to grow a beard to becomes as strong as Grande.",
+         "Hey! You don't see me walking in on you in your shower do you?!",
+         'I am not available right now, please leave a message after the beep.'].sample
+      end
     end
 
-    command_bot.command(:raid, description: 'Shows time until raid/zerg in hours/minutes') do
-      next_raid(@@next_raid_time)
-    end
-
-    @@chat_bot.run :async
+    chat_bot.run :async
     command_bot.run :async
 
     at_exit do
-      @@chat_bot.stop
+      chat_bot.stop
       command_bot.stop
     end
   end
 
-  def self.set_next_raid(message = nil)
-    if (message.nil?)
-      message = @@chat_bot.find_channel(CHANNEL, SERVER).first.history(10).map(&:content).select do |message|
-        message.include?('Omega Raid Schedule (Tier 7)')
-      end.first
+  def self.next_raid
+    message = ''
+    Raid.raid_info.each do |raid|
+      message += "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" unless message.empty?
+      message += "**Raid: #{raid.display}**"
+      phase = raid.passed?
+      if phase
+        message += "\n#{message(phase, 'Last phase')}"
+        next
+      end
+      raid.phases.each do |phase|
+        message += "\n#{message(phase)}"
+      end
     end
-
-    date_string = message.match(/Date: +(.*)/)[1]
-    time_string = message.match(/([0-9:]*) UTC/)[1]
-    next_day = message.scan(/UTC \(/).count == 2
-
-    @@next_raid_time = Time.parse("#{date_string} #{time_string} UTC")
-    @@next_raid_time = @@next_raid_time + 1.day if next_day
+    message
   end
 
-  def self.next_raid(raid_time)
-    raid_time = set_next_raid if raid_time.nil?
-
-    zerg_time = raid_time + 9.hours
-    now = Time.zone.now
-
-    hours = ((raid_time - now) / 1.hour).to_i
-    minutes = ((raid_time - now - hours.hours) / 1.minute).round
-
-    if (now < raid_time)
-      "Next raid starts in **#{hours} hours and #{minutes} minutes**!"
-    elsif (now < zerg_time)
-      "Raid started **#{- hours} hours and #{- minutes} minutes** ago!\nZerg starts in **#{8 + hours} hours and #{60 + minutes} minutes**!"
-    else
-      "Raid started **#{- hours} hours and #{- minutes} minutes** ago!\nZerg started **#{- hours - 9} hours and #{- minutes} minutes** ago!"
+  def self.announce(guild_name, channel_name, raid_name, phases)
+    message = "**Next raid schedule: #{raid_name}**\n"
+    phases.each do |phase|
+      message += "#{phase.name}:\t#{phase.start}\n"
     end
+    message += "\n"
+
+    # TODO: consider case of multiple hits
+    channel_id = chat_bot.find_channel(channel_name, guild_name).first
+    raise 'Wrong announcement channel name' if channel_id.blank?
+    channel_id = channel_id.id
+    chat_bot.send_message(channel_id, message)
+  end
+
+  def self.message(phase, name = nil)
+    time = phase.start
+    now = Time.zone.now
+    hours = ((time - now) / 1.hour).to_i
+    minutes = ((time - now - hours.hours) / 1.minute).round
+
+    name ||= phase.name
+    if hours < 0 || minutes < 0
+      "#{name}:\tstarted **#{- hours} hours and #{- minutes} minutes** ago"
+    else
+      "#{name}:\tstarts in **#{hours} hours and #{minutes} minutes**."
+    end
+  end
+
+  ############
+  # API calls
+  ############
+
+  def self.guilds(user)
+    JSON.parse(Discordrb::API.servers(token(user)).body)
+  end
+
+  def self.channels(guild, user)
+    JSON.parse(Discordrb::API.server(token(user), guild.uid).body)
+  end
+
+  def self.token(user)
+    "Bearer #{user.token}"
   end
 end
-
