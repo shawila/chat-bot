@@ -1,0 +1,15 @@
+%h1 Guilds
+%table
+  %tr
+    %th Server Name
+    %th Owner
+    %th Permissions
+    %th Announcement Channel
+  - @guilds.each do |guild|
+    %tr
+      %td= guild.name
+      %td= guild.owner?(current_user)
+      %td= guild.permissions(current_user)
+      %td= guild.announcement_channel
+      %td= link_to 'Raids', guild_raids_path(guild)
+      %td= link_to 'Edit', edit_guild_path(guild)
