@@ -28,16 +28,17 @@ class Raid < ActiveRecord::Base
   end
 
   # Returns first raid of the passed types (or of each type if none are passed)
-  def self.raid_info(types = Raid.raid_types.keys, time = Time.zone.now)
+  def self.raid_info(types = Raid.raid_types.values, time = Time.zone.now)
     raids = joins(:phases).order('phases.start ASC').where('phases.start > ?', time - 9.hours).where(raid_type: types)
     types.map do |type|
-      result = raids.select { |raid| raid.raid_type = type }
+      result = raids.select { |raid| raid.raid_type == Raid.raid_types.keys[type] }
+      next if result.blank?
       if result.first.passed?
         result.take(2)
       else
         result.take(1)
       end
-    end.flatten
+    end.flatten.compact
   end
 
   private

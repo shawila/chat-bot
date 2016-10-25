@@ -13,14 +13,7 @@ class OmegaDiscordBot
     end
 
     command_bot.command(:raid, description: 'Shows time until next raid (including all phases) in hours/minutes') do |event|
-      if event.server.name == 'Test'
-        next_raid
-      else
-        ['Even bots need holidays every once in a while you know!',
-         "I'm trying to grow a beard to becomes as strong as Grande.",
-         "Hey! You don't see me walking in on you in your shower do you?!",
-         'I am not available right now, please leave a message after the beep.'].sample
-      end
+      next_raid
     end
 
     chat_bot.run :async
