@@ -8,7 +8,7 @@ class OmegaDiscordBot
   def self.run!
     command_bot = Discordrb::Commands::CommandBot.new token: OMEGA_DISCORD_BOT_TOKEN, application_id: OMEGA_DISCORD_APP_ID, prefix: '!'
 
-    chat_bot.message(in: '#general', containing: 'Grandepatron') do |event|
+    chat_bot.message(in: '#omega_text_chat', containing: 'Grandepatron') do |event|
       chat_bot.send_message(event.channel.id, 'All hail our bearded leader!')
     end
 
