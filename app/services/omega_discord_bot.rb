@@ -8,12 +8,12 @@ class OmegaDiscordBot
   def self.run!
     command_bot = Discordrb::Commands::CommandBot.new token: OMEGA_DISCORD_BOT_TOKEN, application_id: OMEGA_DISCORD_APP_ID, prefix: '!'
 
-    chat_bot.message(in: '#omega_text_chat', containing: 'Grandepatron') do |event|
-      chat_bot.send_message(event.channel.id, 'All hail our bearded leader!')
+    chat_bot.message(in: '#living_room', containing: 'Grandepatron') do |event|
+      event.respond 'All hail the bearded warrior!'
     end
 
     command_bot.command(:raid, description: 'Shows time until next raid (including all phases) in hours/minutes') do |event|
-      next_raid
+      next_raid(event.server.id)
     end
 
     chat_bot.run :async
@@ -25,13 +25,13 @@ class OmegaDiscordBot
     end
   end
 
-  def self.next_raid
+  def self.next_raid(guild_uid)
     message = ''
-    Raid.raid_info.each do |raid|
+    Raid.raid_info(guild_uid).each do |raid|
       message += "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" unless message.empty?
       message += "**Raid: #{raid.display}**"
-      phase = raid.passed?
-      if phase
+
+      if phase = raid.passed?
         message += "\n#{message(phase, 'Last phase')}"
         next
       end
@@ -45,7 +45,7 @@ class OmegaDiscordBot
   def self.announce(guild_name, channel_name, raid_name, phases)
     message = "**Next raid schedule: #{raid_name}**\n"
     phases.each do |phase|
-      message += "#{phase.name}:\t#{phase.start}\n"
+      message += "#{phase.name}:\t#{phase.start.strftime('%d %b %Y ~ %H:%M (%Z)')}\n"
     end
     message += "\n"
 
