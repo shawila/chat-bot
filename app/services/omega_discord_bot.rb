@@ -51,7 +51,7 @@ class OmegaDiscordBot
 
     # TODO: consider case of multiple hits
     channel_id = chat_bot.find_channel(channel_name, guild_name).first
-    raise 'Wrong announcement channel name' if channel_id.blank?
+    return if channel_id.blank?
     channel_id = channel_id.id
     chat_bot.send_message(channel_id, message)
   end
