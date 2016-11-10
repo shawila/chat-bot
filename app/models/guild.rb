@@ -13,18 +13,13 @@ class Guild < ActiveRecord::Base
     guild_permissions.user_permissions(user.id).pluck(:permissions).first
   end
 
-  def channels(user)
-    # TODO: fix permissions for this
-    OmegaDiscordBot.channels(self, user)
-  end
-
   # Create Hash from discord API response
   # ++guild_hash++ guild object returned by API
   #   example:  {
   #               id: "81384788765712384",
   #               name: "Discord API",
-  #               icon: "2aab26934e72b4ec300c5aa6cf67c7b3"
-  #               permissions: 104188929
+  #               icon: "2aab26934e72b4ec300c5aa6cf67c7b3",
+  #               permissions: 104188929,
   #               owner: false
   #             }
   # ++user++ current_user that will be added to this guild
