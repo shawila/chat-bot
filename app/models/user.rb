@@ -13,10 +13,6 @@ class User < ActiveRecord::Base
     save
   end
 
-  def guilds_from_discord
-    OmegaDiscordBot.guilds(self)
-  end
-
   def self.from_omniauth(auth_hash)
     user = User.find_or_create_by(uid: auth_hash['uid']) do |user|
       user.username = auth_hash['info']['username']

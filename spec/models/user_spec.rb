@@ -30,4 +30,31 @@ RSpec.describe User, type: :model do
       expect(user.refresh_token).to eq 'REFRESH_TOKEN'
     end
   end
+
+  describe '#from_omniauth' do
+    it 'creates user from omniauth hash' do
+      new_user = User.from_omniauth(auth_hash)
+      expect(new_user.uid).to eq 'UID'
+      expect(new_user.username).to eq 'USERNAME'
+      expect(new_user.discriminator).to eq 'DISC'
+      expect(new_user.avatar).to eq 'AVATAR'
+      expect(new_user.verified).to be_truthy
+      expect(new_user.token).to eq 'TOKEN'
+      expect(new_user.refresh_token).to eq 'REFRESH_TOKEN'
+    end
+
+    context 'user with same uid already exists' do
+      let(:user) { Fabricate(:user, uid: 'UID', username: 'TARO') }
+
+      it 'returns the old user and updates the credentials' do
+        expect(user.token).to be_nil
+
+        new_user = User.from_omniauth(auth_hash)
+        expect(new_user.uid).to eq 'UID'
+        expect(new_user.username).to eq 'TARO'
+        expect(new_user.token).to eq 'TOKEN'
+        expect(new_user.refresh_token).to eq 'REFRESH_TOKEN'
+      end
+    end
+  end
 end
