@@ -247,7 +247,7 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth :discord, ENV['OMEGA_DISCORD_APP_ID'], ENV['OMEGA_DISCORD_SECRET']
+  config.omniauth :discord, OMEGA_DISCORD_APP_ID, OMEGA_DISCORD_SECRET
 
 
   # ==> Warden configuration

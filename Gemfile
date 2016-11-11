@@ -35,7 +35,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise'
 gem 'omniauth-discord'
 
-gem 'discordrb'
+gem 'discordrb', require: false
 
 gem 'haml'
 gem 'bootstrap', '~> 4.0.0.alpha3.1'
@@ -54,6 +54,8 @@ group :development, :test do
   gem 'looksee'
   gem 'rspec-rails'
   gem 'pgreset'
+  gem 'fabrication'
+  gem 'faker'
 end
 
 group :development do

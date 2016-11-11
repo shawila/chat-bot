@@ -79,6 +79,7 @@ class OmegaDiscordBot
   end
 
   def self.channels(guild, user)
+    # TODO: fix permissions for this
     JSON.parse(Discordrb::API.server(token(user), guild.uid).body)
   end
 
