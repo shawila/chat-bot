@@ -15,6 +15,7 @@ RSpec.describe Guild, type: :model do
       owner: false
     }.with_indifferent_access
   end
+
   describe '#owner?' do
     it do
       guild_permission # lazily instantiated
