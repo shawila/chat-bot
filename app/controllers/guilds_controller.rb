@@ -1,6 +1,6 @@
 class GuildsController < ApplicationController
   def index
-    @guilds ||= OmegaDiscordBot.guilds(current_user).map do |guild_hash|
+    @guilds ||= Bot::Discord::Omega.guilds(current_user).map do |guild_hash|
       Guild.from_hash(guild_hash, current_user)
     end
   end
