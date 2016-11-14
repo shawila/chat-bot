@@ -50,6 +50,6 @@ class Raid < ActiveRecord::Base
   def announce
     return if guild.announcement_channel.nil?
 
-    OmegaDiscordBot.announce(guild.name, guild.announcement_channel, display, phases)
+    Bot::Discord::Omega.announce(guild.name, guild.announcement_channel, display, phases)
   end
 end
