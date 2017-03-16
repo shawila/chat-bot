@@ -9,4 +9,5 @@
       %td= phase.name
       %td= phase.start
 = link_to 'Edit', edit_guild_raid_path(@guild, @raid)
+= link_to 'Destroy', [@guild, @raid], method: :delete, data: { confirm: 'Are you sure?' }
 = link_to 'Back to raids', guild_raids_path

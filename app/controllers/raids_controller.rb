@@ -6,7 +6,7 @@ class RaidsController < ApplicationController
 
   def show
     @guild = current_guild
-    @raid = current_raid
+    @raid = current_raid(@guild)
   end
 
   def new
@@ -20,7 +20,7 @@ class RaidsController < ApplicationController
 
   def edit
     @guild = current_guild
-    @raid = current_raid
+    @raid = current_raid(@guild)
   end
 
   def create
@@ -35,11 +35,19 @@ class RaidsController < ApplicationController
 
   def update
     @guild = current_guild
-    @raid = current_raid
+    @raid = current_raid(@guild)
     if @raid.update(raid_params(true))
       redirect_to [@guild, @raid]
     else
       render :edit
+    end
+  end
+
+  def destroy
+    @guild = current_guild
+    @raid = current_raid(@guild)
+    if @raid.delete
+      redirect_to [@guild, @raid]
     end
   end
 
@@ -49,8 +57,12 @@ class RaidsController < ApplicationController
     Guild.find(params[:guild_id])
   end
 
-  def current_raid
-    Raid.find(params[:id])
+  def current_raid(guild = nil)
+    if guild
+      guild.raids.find(params[:id])
+    else
+      Raid.find(params[:id])
+    end
   end
 
   def raid_params(update = false)
