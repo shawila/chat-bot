@@ -10,9 +10,14 @@ module Bot::Discord::Omega
         event.respond 'All hail the bearded warrior!'
       end
 
-      command_bot.command(:raid, description: raid_command_description) do |event|
+      command_bot.command(:raid, description: raid_command_description) do |event, type|
         return unless Rails.env.production? || event.server.name == 'Test'
-        raid_info(event.server.id)
+        raid_info(event.server.id, type ? [type.to_sym] : nil)
+      end
+
+      command_bot.command(:raids, description: raid_command_description) do |event, type|
+        return unless Rails.env.production? || event.server.name == 'Test'
+        raid_info(event.server.id, type ? [type.to_sym] : nil, return_all = true)
       end
 
       @bot.run :async
@@ -40,9 +45,9 @@ module Bot::Discord::Omega
 
     private
 
-    def raid_info(guild_uid)
+    def raid_info(guild_uid, types, return_all = false)
       message = ''
-      Raid.raid_info(guild_uid).each do |raid|
+      Raid.raid_info(guild_uid, types, return_all).each do |raid|
         message += "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" unless message.empty?
         message += "**Raid: #{raid.display}**"
 
@@ -72,7 +77,11 @@ module Bot::Discord::Omega
     end
 
     def raid_command_description
-      'Shows time until next raid (including all phases) in hours/minutes'
+      'Shows time until next raid (including all phases) in hours/minutes\nPass type to get specific raid (ex. !raid pit, !raid tank)'
+    end
+
+    def raids_command_description
+      'Shows time for all current/future raids (including all phases) in hours/minutes\nPass type to get specific raids (ex. !raids pit, !raids tank)'
     end
   end
 end

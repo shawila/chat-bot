@@ -75,6 +75,11 @@ RSpec.describe Raid, type: :model do
       expect(Raid.raid_info(guild.uid, types = [1])).to eq [tank_raids.first]
     end
 
+    it 'returns all raids of the passed type if return_all is true' do
+      expect(Raid.raid_info(guild.uid, types = [0], return_all = true)).to eq pit_raids
+      expect(Raid.raid_info(guild.uid, types = [1], return_all = true)).to eq tank_raids
+    end
+
     context 'one of the raids was in the near past (less than 9 hours ago)' do
       let(:start) { Time.zone.now - 9.hours } # raid will have one phase 9 hours ago and another 8 hours ago
 
