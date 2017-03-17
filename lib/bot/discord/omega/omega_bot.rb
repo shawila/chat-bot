@@ -12,12 +12,12 @@ module Bot::Discord::Omega
 
       command_bot.command(:raid, description: raid_command_description) do |event, type|
         return unless Rails.env.production? || event.server.name == 'Test'
-        raid_info(event.server.id, type ? [type.to_sym] : nil)
+        raid_info(event.server.id, type ? [Raid.raid_types[type]] : nil)
       end
 
       command_bot.command(:raids, description: raid_command_description) do |event, type|
         return unless Rails.env.production? || event.server.name == 'Test'
-        raid_info(event.server.id, type ? [type.to_sym] : nil, return_all = true)
+        raid_info(event.server.id, type ? [Raid.raid_types[type]] : nil, return_all = true)
       end
 
       @bot.run :async
