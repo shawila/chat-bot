@@ -1,4 +1,6 @@
 class RaidsController < ApplicationController
+  before_action :check_permissions
+
   def index
     @guild = current_guild
     @raids = @guild.raids
@@ -52,6 +54,13 @@ class RaidsController < ApplicationController
   end
 
   private
+
+  def check_permissions
+    unless current_guild.has_access?(current_user)
+      flash[:error] = "You do not have access to edit this guild's raids. Contact a guild admin for more info."
+      redirect_to guilds_path
+    end
+  end
 
   def current_guild
     Guild.find(params[:guild_id])

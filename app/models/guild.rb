@@ -5,6 +5,10 @@ class Guild < ActiveRecord::Base
 
   default_scope { includes(:guild_permissions) }
 
+  def has_access?(user)
+    guild_permissions.user_permissions(user.id).first.has_access?
+  end
+
   def owner?(user)
     guild_permissions.user_permissions(user.id).pluck(:owner).first
   end

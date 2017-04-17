@@ -1,4 +1,6 @@
 class GuildsController < ApplicationController
+  before_action :check_permissions, only: [:edit, :update]
+
   def index
     @guilds ||= Bot::Discord::Omega.guilds(current_user).map do |guild_hash|
       Guild.from_hash(guild_hash, current_user)
@@ -19,6 +21,13 @@ class GuildsController < ApplicationController
   end
 
   private
+
+  def check_permissions
+    unless current_guild.has_access?(current_user)
+      flash[:error] = "You do not have access to edit this guild's raids. Contact a guild admin for more info."
+      redirect_to guilds_path
+    end
+  end
 
   def current_guild
     @guild = Guild.find(params[:id])
