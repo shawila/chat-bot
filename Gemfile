@@ -36,6 +36,7 @@ gem 'devise'
 gem 'omniauth-discord'
 
 gem 'discordrb', require: false
+gem 'bitfields'
 
 gem 'haml'
 gem 'bootstrap', '~> 4.0.0.alpha3.1'

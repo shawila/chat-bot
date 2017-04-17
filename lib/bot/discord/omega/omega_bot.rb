@@ -3,7 +3,7 @@ module Bot::Discord::Omega
     def initialize(token, application_id)
       require 'discordrb'
 
-      @bot = Discordrb::Bot.new token: token, application_id: application_id
+      @bot = Discordrb::Bot.new token: token, client_id: application_id
       command_bot = Discordrb::Commands::CommandBot.new token: token, application_id: application_id, prefix: '!'
 
       @bot.message(in: '#living_room', containing: 'Grandepatron') do |event|
@@ -12,12 +12,12 @@ module Bot::Discord::Omega
 
       command_bot.command(:raid, description: raid_command_description) do |event, type|
         return unless Rails.env.production? || event.server.name == 'Test'
-        raid_info(event.server.id, type ? [Raid.raid_types[type]] : nil)
+        raid_info(event.server.id, type ? [Raid.raid_types[type]] : Raid.raid_types.values)
       end
 
       command_bot.command(:raids, description: raid_command_description) do |event, type|
         return unless Rails.env.production? || event.server.name == 'Test'
-        raid_info(event.server.id, type ? [Raid.raid_types[type]] : nil, return_all = true)
+        raid_info(event.server.id, type ? [Raid.raid_types[type]] : Raid.raid_types.values, return_all = true)
       end
 
       @bot.run :async

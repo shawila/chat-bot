@@ -11,7 +11,7 @@ class Raid < ActiveRecord::Base
   after_create :announce
 
   def display
-    display = "#{I18n.t("raid.raid_type.#{raid_type}")}"
+    display = I18n.t("raid.raid_type.#{raid_type}")
     display += " (#{name})" unless name.empty?
     display
   end
@@ -29,8 +29,6 @@ class Raid < ActiveRecord::Base
 
   # Returns first raid of the passed types (or of each type if none are passed)
   def self.raid_info(guild_uid, types, return_all = false, time = Time.zone.now)
-    types = types || Raid.raid_types.values
-
     guild = Guild.where(uid: guild_uid).first
     raids = joins(:phases).order('phases.start ASC')
               .where('phases.start > ?', time - 9.hours)
