@@ -3,3 +3,13 @@ en:
     raid_type:
       pit: 'The Pit'
       tank: 'Tank Takedown'
+  activerecord:
+    models:
+      phase:
+        one: Phase
+        other: Phases
+  errors:
+    guild:
+      no_permission: "You do not have access to edit this guild's info. Contact a guild admin for help."
+    raid:
+      no_permission: "You do not have access to edit this guild's raids. Contact a guild admin for help."

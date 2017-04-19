@@ -44,7 +44,7 @@ gem 'simple_form'
 gem 'nested_form'
 
 source 'https://rails-assets.org' do
-  gem 'rails-assets-tether', '>= 1.1.0'
+  gem 'rails-assets-tether', '>= 1.3.3'
 end
 
 group :development, :test do

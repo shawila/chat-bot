@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161023101118) do
+ActiveRecord::Schema.define(version: 20170419054611) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20161023101118) do
     t.string   "icon"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
-    t.text     "announcement_channel"
+    t.string   "announcement_channel"
   end
 
   add_index "guilds", ["uid"], name: "index_guilds_on_uid", unique: true, using: :btree
