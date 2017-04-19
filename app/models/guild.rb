@@ -33,12 +33,13 @@ class Guild < ActiveRecord::Base
       guild.icon = guild_hash['icon']
     end
 
-    GuildPermission.find_or_create_by(user: user, guild: guild) do |guild_permission|
-      guild_permission.user = user
-      guild_permission.guild = guild
-      guild_permission.owner = guild_hash['owner']
-      guild_permission.permissions = guild_hash['permissions']
+    guild_permission = GuildPermission.find_or_create_by(user: user, guild: guild) do |new_guild_permission|
+      new_guild_permission.user = user
+      new_guild_permission.guild = guild
     end
+    guild_permission.owner = guild_hash['owner']
+    guild_permission.permissions = guild_hash['permissions']
+    guild_permission.save
 
     guild
   end

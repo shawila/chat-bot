@@ -10,32 +10,7 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
- *= require_self
  */
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-td, th {
-    border: 1px solid #ddd;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-tr:hover{
-    background-color: #ddd;
-}
-
-th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #4CAF50;
-    color: white;
-}
+@import "bootstrap";
+@import "form";
+@import "table";

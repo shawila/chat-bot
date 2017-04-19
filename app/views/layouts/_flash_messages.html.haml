@@ -1,0 +1,4 @@
+- flash.each do |key, value|
+  %div{class: "alert alert-#{flash_key(key)} alert-dismissable"}
+    %a{class: 'close', 'data-dismiss': 'alert', 'aria-label': 'close'}x
+    = value

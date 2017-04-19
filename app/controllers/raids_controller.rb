@@ -57,7 +57,7 @@ class RaidsController < ApplicationController
 
   def check_permissions
     unless current_guild.has_access?(current_user)
-      flash[:error] = "You do not have access to edit this guild's raids. Contact a guild admin for more info."
+      flash[:danger] = I18n.t('errors.raid.no_permission')
       redirect_to guilds_path
     end
   end

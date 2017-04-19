@@ -1,7 +1,7 @@
 = simple_nested_form_for [@guild, @raid] do |f|
   = f.input :name
   = f.hidden_field :raid_type
-  %h2 Phases:
+  %label= Phase.model_name.human(count: 2)
   = f.fields_for :phases do |phase_form|
     = phase_form.input :name
     = phase_form.input :start
