@@ -4,7 +4,7 @@ class Raid < ActiveRecord::Base
 
   accepts_nested_attributes_for :phases, allow_destroy: true
 
-  enum raid_type: [:pit, :tank]
+  enum raid_type: [:pit, :tank, :hoth]
 
   default_scope { includes(:phases) }
 

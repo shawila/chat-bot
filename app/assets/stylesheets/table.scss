@@ -1,6 +1,7 @@
 table {
   border-collapse: collapse;
   width: 100%;
+  margin-bottom: 15px;
 }
 
 td, th {
@@ -22,4 +23,13 @@ th {
   text-align: left;
   background-color: #4CAF50;
   color: white;
+}
+
+div.container > form {
+  margin: 0;
+  padding: 0;
+}
+
+input.destroy[type='submit'] {
+  background-color: red;
 }
