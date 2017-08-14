@@ -9,6 +9,7 @@
       - raid.phases.each do |phase|
         %td= phase.name
         %td= phase.start
-= link_to 'New raid (The Pit)', new_guild_raid_path(type: :pit)
-= link_to 'New raid (Tank Takedown)', new_guild_raid_path(type: :tank)
+= button_to 'New Raid (The Pit)', new_guild_raid_path, method: :get, params: { type: :pit }
+= button_to 'New Raid (Tank Takedown)', new_guild_raid_path, method: :get, params: { type: :tank }
+= button_to 'New Territory Battle (Hoth)', new_guild_raid_path, method: :get, params: { type: :hoth }
 = link_to 'Back to guilds', guilds_path

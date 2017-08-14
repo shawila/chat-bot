@@ -3,6 +3,7 @@ en:
     raid_type:
       pit: 'The Pit'
       tank: 'Tank Takedown'
+      hoth: 'Ice planet of Hoth'
   activerecord:
     models:
       phase:
