@@ -15,7 +15,7 @@ module Bot::Discord::Omega
         raid_info(event.server.id, type ? [Raid.raid_types[type]] : Raid.raid_types.values)
       end
 
-      command_bot.command(:raids, description: raid_command_description) do |event, type|
+      command_bot.command(:raids, description: raids_command_description) do |event, type|
         return unless Rails.env.production? || event.server.name == 'Test'
         raid_info(event.server.id, type ? [Raid.raid_types[type]] : Raid.raid_types.values, return_all = true)
       end

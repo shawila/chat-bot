@@ -1,0 +1,11 @@
+language: ruby
+rvm:
+ - 2.2
+deploy:
+  provider: heroku
+  api_key:
+    secure: etj/Ojc4v0lxhERvvX/1LjLLh1aP1MUajnoBj9e15eYHHzqfRD8pfPD1Ludr/8L8Owymdc5SDRfuie8dm4n3ZqS0bM+26KGlpolx+QFFrgnj7gYv143cX8qM3StcaYT6uU9pHbcEEUZ08iUA006UNZ2EKLZxdSHJxN5ZhlpJl7lYBhBYa84g53PXc/YFLEo4QmcTM6jEOwLv7P1YkO6osesAjXew+eHXH6iQFsfQq67pfUJg+3PSByRJ+Vov97feFl9E86ys4ekEq4vLT6QZ8UD2++3bJ7Q1jgIDxIEI2KgRwMvP5bPhwQ6fr8y3kcnmNefuO6VpYaMvy1jSN9g2hf1CaK+t1hpD9m8m/aIRp1+uhh+Gbg1utWyM4bQFV1/+DZ/gOqO56svigrdv4Ge4tV/giHMeWo6c1wZMj+C4cDaaxF8uihk+zo/VkqCL70T/7kuptJFj2qkGSdegATsn+JJQ7u3khOluYoMF/WD5/MrxMt4fp5xV6IP5/ILn+M3QcpdWCUgGaByxA1uKcEpEuBo7RwHDSWKYtlZxLmJCe8jSVXgBK2nyLEmHV3iSuRTA3cK2jOfnn3KsBu1B6BIlBCehb5OyveWrtybHzv0ZUjK3Aohjx8QXrGts3VXNbty6ty3a2xXCDS0Mw+N7s5NNjROfGPvQ0q4eX1nwpP4bPIg=
+  app: chat-bot-supreme
+  on:
+    repo: shawila/chat-bot
+  run: "rake db:migrate"
