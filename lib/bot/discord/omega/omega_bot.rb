@@ -12,12 +12,22 @@ module Bot::Discord::Omega
 
       command_bot.command(:raid, description: raid_command_description) do |event, type|
         return unless Rails.env.production? || event.server.name == 'Test'
-        raid_info(event.server.id, type ? [Raid.raid_types[type]] : Raid.raid_types.values)
+        raid_info(event.server.id, type ? [Raid.raid_types[type]] : Raid.raids)
       end
 
       command_bot.command(:raids, description: raids_command_description) do |event, type|
         return unless Rails.env.production? || event.server.name == 'Test'
-        raid_info(event.server.id, type ? [Raid.raid_types[type]] : Raid.raid_types.values, return_all = true)
+        raid_info(event.server.id, type ? [Raid.raid_types[type]] : Raid.raids, true)
+      end
+
+      command_bot.command(:battle, description: battle_command_description) do |event, type|
+        return unless Rails.env.production? || event.server.name == 'Test'
+        raid_info(event.server.id, type ? [Raid.raid_types[type]] : Raid.battles)
+      end
+
+      command_bot.command(:battles, description: battles_command_description) do |event, type|
+        return unless Rails.env.production? || event.server.name == 'Test'
+        raid_info(event.server.id, type ? [Raid.raid_types[type]] : Raid.battles, true)
       end
 
       @bot.run :async
@@ -51,8 +61,8 @@ module Bot::Discord::Omega
         message += "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" unless message.empty?
         message += "**Raid: #{raid.display}**"
 
-        if phase = raid.passed?
-          message += "\n#{message(phase, 'Last phase')}"
+        if last_phase = raid.passed?
+          message += "\n#{message(last_phase, 'Last phase')}"
           next
         end
         raid.phases.each do |phase|
@@ -82,6 +92,14 @@ module Bot::Discord::Omega
 
     def raids_command_description
       'Shows time for all current/future raids (including all phases) in hours/minutes\nPass type to get specific raids (ex. !raids pit, !raids tank)'
+    end
+
+    def battle_command_description
+      'Shows time until next battle (including all phases) in hours/minutes\nPass type to get specific battle (ex. !battle hoth)'
+    end
+
+    def battles_command_description
+      'Shows time for all current/future battles (including all phases) in hours/minutes\nPass type to get specific battles (ex. !battles hoth)'
     end
   end
 end
