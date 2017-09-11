@@ -13,6 +13,7 @@ class RaidsController < ApplicationController
 
   def new
     @type = I18n.t("raid.raid_type.#{params[:type]}") # TODO: this could be done better maybe
+    @event = I18n.t("event.#{Raid.event_type(params[:type])}")
     @guild = current_guild
     last_raid = @guild.raids.send(params[:type]).last
     @raid = @guild.raids.new
@@ -21,6 +22,7 @@ class RaidsController < ApplicationController
   end
 
   def edit
+    @event = I18n.t("event.#{Raid.event_type(params[:type])}")
     @guild = current_guild
     @raid = current_raid(@guild)
   end

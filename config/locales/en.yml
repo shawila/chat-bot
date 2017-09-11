@@ -1,4 +1,7 @@
 en:
+  event:
+    raid: 'Raid'
+    battle: 'Territory Battle'
   raid:
     raid_type:
       pit: 'The Pit'

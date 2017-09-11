@@ -1,6 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe Raid, type: :model do
+  describe '#event_type' do
+    it 'returns raid if passed type is pit' do
+      expect(Raid.event_type(:pit)).to eq :raid
+      expect(Raid.event_type('pit')).to eq :raid
+    end
+
+    it 'returns raid if passed type is tank' do
+      expect(Raid.event_type(:tank)).to eq :raid
+      expect(Raid.event_type('tank')).to eq :raid
+    end
+
+    it 'returns battle if passed type is hoth' do
+      expect(Raid.event_type(:hoth)).to eq :battle
+      expect(Raid.event_type('hoth')).to eq :battle
+    end
+  end
+
   describe '#display' do
     it 'returns the full display name: The Pit (NAME)' do
       raid = Fabricate(:raid, raid_type: 0)
@@ -66,10 +83,6 @@ RSpec.describe Raid, type: :model do
       [start, start + 9.hours].map { |time| Fabricate(:raid, guild: guild, start: time, raid_type: 1) }
     end
 
-    it 'returns first raid of each type if no type is passed' do
-      expect(Raid.raid_info(guild.uid)).to eq [pit_raids.first, tank_raids.first]
-    end
-
     it 'returns first raid of the passed type' do
       expect(Raid.raid_info(guild.uid, types = [0])).to eq [pit_raids.first]
       expect(Raid.raid_info(guild.uid, types = [1])).to eq [tank_raids.first]
@@ -84,7 +97,7 @@ RSpec.describe Raid, type: :model do
       let(:start) { Time.zone.now - 9.hours } # raid will have one phase 9 hours ago and another 8 hours ago
 
       it 'returns two raids of the passed type' do
-        raids = Raid.raid_info(guild.uid, types = [0])
+        raids = Raid.raid_info(guild.uid, [0])
         expect(pit_raids.first.phases.last.start).to be > Time.zone.now - 9.hours
         expect(pit_raids.last.phases.first.start).to be > Time.zone.now
         expect(raids).to eq pit_raids

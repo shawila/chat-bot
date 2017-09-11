@@ -10,6 +10,22 @@ class Raid < ActiveRecord::Base
 
   after_create :announce
 
+  def self.raids
+    [self.raid_types[:pit], self.raid_types[:tank]]
+  end
+
+  def self.battles
+    [self.raid_types[:hoth]]
+  end
+
+  def self.event_type(raid_type)
+    if raid_type.to_sym == :pit || raid_type.to_sym == :tank
+      :raid
+    else
+      :battle
+    end
+  end
+
   def display
     display = I18n.t("raid.raid_type.#{raid_type}")
     display += " (#{name})" unless name.empty?
