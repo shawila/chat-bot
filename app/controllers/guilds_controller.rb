@@ -2,8 +2,12 @@ class GuildsController < ApplicationController
   before_action :check_permissions, only: [:edit, :update]
 
   def index
-    @guilds ||= Bot::Discord::Omega.guilds(current_user).map do |guild_hash|
-      Guild.from_hash(guild_hash, current_user)
+    begin
+      @guilds ||= Bot::Discord::Omega.guilds(current_user).map do |guild_hash|
+        Guild.from_hash(guild_hash, current_user)
+      end
+    rescue RestClient::Unauthorized => ex
+      redirect_to destroy_user_session_path
     end
   end
 
