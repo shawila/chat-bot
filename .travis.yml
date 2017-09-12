@@ -1,4 +1,8 @@
 language: ruby
+addons:
+  postgresql: '9.4'
+before_script:
+ - psql -c 'create database chat_bot_test;' -U postgres
 rvm:
  - 2.2
 deploy:
