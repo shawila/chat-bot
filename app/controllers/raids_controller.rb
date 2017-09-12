@@ -22,9 +22,9 @@ class RaidsController < ApplicationController
   end
 
   def edit
-    @event = I18n.t("event.#{Raid.event_type(params[:type])}")
     @guild = current_guild
     @raid = current_raid(@guild)
+    @event = I18n.t("event.#{Raid.event_type(@raid.raid_type)}")
   end
 
   def create

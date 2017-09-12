@@ -1,28 +1,6 @@
-== README
+[![Build Status](https://travis-ci.org/shawila/chat-bot.svg?branch=separate-battles-raids)](https://travis-ci.org/shawila/chat-bot)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# OmegaBot
+This is the repo for the OmegaBot: a bot for Discord used by gaming guilds to keep track of raids and their phases, useful when members are spread all over the world in different timezones.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+For information on how to use the website and bot, please check the [wiki](https://github.com/shawila/chat-bot/wiki).
