@@ -7,6 +7,7 @@ en:
       pit: 'The Pit'
       tank: 'Tank Takedown'
       hoth: 'Ice planet of Hoth'
+      sith: 'Sith Triumvirate'
   activerecord:
     models:
       phase:

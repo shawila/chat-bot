@@ -4,14 +4,14 @@ class Raid < ActiveRecord::Base
 
   accepts_nested_attributes_for :phases, allow_destroy: true
 
-  enum raid_type: [:pit, :tank, :hoth]
+  enum raid_type: [:pit, :tank, :hoth, :sith]
 
   default_scope { includes(:phases) }
 
   after_create :announce
 
   def self.raids
-    [self.raid_types[:pit], self.raid_types[:tank]]
+    [self.raid_types[:pit], self.raid_types[:tank], self.raid_types[:sith]]
   end
 
   def self.battles
@@ -19,7 +19,7 @@ class Raid < ActiveRecord::Base
   end
 
   def self.event_type(raid_type)
-    if raid_type.to_sym == :pit || raid_type.to_sym == :tank
+    if raid_type.to_sym == :pit || raid_type.to_sym == :tank || raid_type.to_sym == :sith
       :raid
     else
       :battle

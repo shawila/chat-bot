@@ -16,6 +16,11 @@ RSpec.describe Raid, type: :model do
       expect(Raid.event_type(:hoth)).to eq :battle
       expect(Raid.event_type('hoth')).to eq :battle
     end
+
+    it 'returns raid if passed type is sith' do
+      expect(Raid.event_type(:sith)).to eq :raid
+      expect(Raid.event_type('sith')).to eq :raid
+    end
   end
 
   describe '#display' do
@@ -33,6 +38,13 @@ RSpec.describe Raid, type: :model do
       it 'returns the full display name: Tank Takedown (NAME)' do
         raid = Fabricate(:raid, raid_type: 1)
         expect(raid.display).to eq "Tank Takedown (#{raid.name})"
+      end
+    end
+
+    context 'Sith raid' do
+      it 'returns the full display name: Sith Triumvirate (NAME)' do
+        raid = Fabricate(:raid, raid_type: 3)
+        expect(raid.display).to eq "Sith Triumvirate (#{raid.name})"
       end
     end
   end
